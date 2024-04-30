@@ -1,25 +1,38 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import TaskForm from './components/TaskForm';
+import TaskList from './components/TaskList';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (taskText, assignedTo) => {
+    const newTask = {
+      id: tasks.length + 1,
+      text: taskText,
+      assignedTo: assignedTo,
+      status: 'pending', 
+    };
+    setTasks([...tasks, newTask]);
+  };
+
+  const updateTaskStatus = (taskId, status) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, status: status };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <h1>Task List</h1>
+      <TaskForm addTask={addTask} />
+      <TaskList tasks={tasks} updateTaskStatus={updateTaskStatus} />
     </div>
   );
-}
+};
 
 export default App;
