@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import './index.css';
 
@@ -7,6 +8,7 @@ const TaskForm = ({ addTask }) => {
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
     if (!taskText.trim()) {
       setError('Please enter a valid task.');
