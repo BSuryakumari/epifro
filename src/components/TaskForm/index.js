@@ -1,44 +1,66 @@
-
 import React, { useState } from 'react';
-import './index.css';
+import './index.css'
+
 
 const TaskForm = ({ addTask }) => {
-  const [taskText, setTaskText] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
-  const [error, setError] = useState('');
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [dueDate, setDueDate] = useState('');
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
-    if (!taskText.trim()) {
-      setError('Please enter a valid task.');
-      return;
-    }
-    addTask(taskText, assignedTo);
+    if (!taskName || !dueDate) return;
     
-    setTaskText('');
-    setAssignedTo('');
-    setError('');
+    const newTask = {
+      id: Date.now(),
+      name: taskName,
+      description: taskDescription,
+      dueDate: dueDate,
+      completed: false,
+    };
+
+    addTask(newTask);
+    setTaskName('');
+    setTaskDescription('');
+    setDueDate('');
   };
 
   return (
-    <form className="task-form" onSubmit={handleSubmit}>
-      <input
-        className="task-input"
-        type="text"
-        value={taskText}
-        onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Enter task"
-      />
-      <input
-        className="assigned-to-input"
-        type="text"
-        value={assignedTo}
-        onChange={(e) => setAssignedTo(e.target.value)}
-        placeholder="Assigned To"
-      />
-      <button type="submit" className="add-task-btn">Add Task</button>
-      {error && <p className="error-message">{error}</p>}
+    <form onSubmit={handleSubmit} className="form-container">
+      <div className='input-container'>
+        <label htmlFor="taskName" className='label'>Task Name:</label>
+        <input
+            type="text"
+            id="taskName"
+            className='input-box'
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+            required
+        />
+      </div>
+      
+      <div className='input-container'>
+        <label htmlFor="taskDescription" className='label'>Description:</label>
+        <textarea
+            id="taskDescription"
+            className='input-box'
+            value={taskDescription}
+            onChange={(e) => setTaskDescription(e.target.value)}
+        ></textarea>
+      </div>
+
+      <div className='input-container'>
+        <label htmlFor="dueDate" className='label'>Due Date:</label>
+        <input
+            type="date"
+            id="dueDate"
+            className='input-box'
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            required
+        />
+      </div>
+      <button type="submit" className='add-btn'>Add Task</button>
     </form>
   );
 };
