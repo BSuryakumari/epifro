@@ -1,25 +1,21 @@
 
 import React from 'react';
-import './index.css';
+import './index.css'
 
-const TaskList = ({ tasks, updateTaskStatus }) => {
-  const handleStatusUpdate = (taskId, status) => {
-    updateTaskStatus(taskId, status);
-  };
-
+const TaskList = ({ tasks, completeTask }) => {
   return (
-    <ul className="task-list">
-      {tasks.map((task) => (
-        <li key={task.id} className={`task-item ${task.status}`}>
-          <span className="task-text">{task.text}</span> - Assigned to: <span className="assigned-to">{task.assignedTo}</span>
-          <div className="task-actions">
-            <button onClick={() => handleStatusUpdate(task.id, 'start')}>Start</button>
-            <button onClick={() => handleStatusUpdate(task.id, 'end')}>End</button>
-            <button onClick={() => handleStatusUpdate(task.id, 'complete')}>Complete</button>
-          </div>
-        </li>
+    <div className="task-list">
+      {tasks.map(task => (
+        <div key={task.id} className={`task-item ${task.completed ? 'completed' : ''}`}>
+          <h3 className='task-heading'>{task.name}</h3>
+          <p>{task.description}</p>
+          <p><strong>Due Date:</strong> {task.dueDate}</p>
+          {!task.completed && (
+            <button className='Complete-task-btn' onClick={() => completeTask(task.id)}>Complete Task</button>
+          )}
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
